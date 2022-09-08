@@ -5,6 +5,7 @@ class OrderStatusService {
   constructor({
     cartService,
     customerService,
+    waClientService,
 
     orderStatusRepository,
 
@@ -13,6 +14,7 @@ class OrderStatusService {
   }) {
     this.cartService = cartService;
     this.customerService = customerService;
+    this.waClientService = waClientService;
 
     this.orderStatusRepository = orderStatusRepository;
 
@@ -32,17 +34,23 @@ class OrderStatusService {
   }
 
   async toNextStatus(order, userId) {
-    console.log(order);
-    if (!order.status || order.id || order.deliveryMethod) return;
+    if (!order.status||
+      !order.id ||
+      !order.deliveryMethod ||
+      !order.customerId
+      ) return;
 
     const nextStatus = this.getNextStatus(order.status.value, order.deliveryMethod);
 
-    console.log(nextStatus);
     await this.orderStatusRepository.create({
       userId,
       orderId: order.id,
       status: nextStatus.value,
     });
+
+    const customer = await this.customerService.getCustomerById(order.customerId);
+
+    this.waClientService.sendStatusMessage(nextStatus.value, customer);
 
     return true;
   }
@@ -50,9 +58,7 @@ class OrderStatusService {
   getNextStatus(status, deliveryMethod) {
     switch (status) {
       case ordersStatusEnum.PENDING.value: return ordersStatusEnum.CONFIRMED;
-      case ordersStatusEnum.CONFIRMED.value: return ordersStatusEnum.PREPARING;
-      case ordersStatusEnum.PREPARING.value: return ordersStatusEnum.READY;
-      case ordersStatusEnum.READY.value:
+      case ordersStatusEnum.CONFIRMED.value:
         return deliveryMethod === deliveryMethodsEnum.DELIVERY.value ?
           ordersStatusEnum.DELIVERING :
           ordersStatusEnum.WAITINGTAKEOUT;

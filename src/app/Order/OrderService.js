@@ -111,8 +111,8 @@ class OrderService {
     const orders = await this.orderRepository.findAll({
       include,
       where,
-      limit: isNaN(limit) ? 0 : parseInt(limit),
-      offset: isNaN(offset) ? 0 : parseInt(offset),
+      limit: isNaN(limit) ? null : parseInt(limit),
+      offset: isNaN(offset) ? null : parseInt(offset),
     });
 
     const handledOrders = await Promise.all(

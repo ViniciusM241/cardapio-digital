@@ -13,7 +13,7 @@ class Customer extends Model {
       model: 'Order',
       relation: 'hasMany',
       as: 'orders',
-      foreignKey: 'id',
+      foreignKey: 'customerId',
     },
   ];
 }
