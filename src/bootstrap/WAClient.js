@@ -40,8 +40,14 @@ class WAClient {
   }
 
   sendMessage(target, message) {
-    if (process.env.SEND_WA_MESSAGES === 'true') {
-      this.client.sendMessage(target, message);
+    try {
+      if (process.env.SEND_WA_MESSAGES === 'true') {
+        if (this.status === 'CONNECTED') {
+          this.client.sendMessage(target, message);
+        }
+      }
+    } catch(err) {
+      console.log(err);
     }
   }
 }

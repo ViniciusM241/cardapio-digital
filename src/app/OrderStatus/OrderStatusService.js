@@ -25,7 +25,7 @@ class OrderStatusService {
   async getCurrentStatus(orderId) {
     const status = await this.orderStatusRepository.findOne({
       where: { orderId: orderId },
-      orderBy: 'createdAt',
+      order: [[ 'createdAt', 'DESC' ]],
     });
 
     if (!status || !ordersStatusEnum[status.status]) return ordersStatusEnum.PENDING;
@@ -50,7 +50,7 @@ class OrderStatusService {
 
     const customer = await this.customerService.getCustomerById(order.customerId);
 
-    this.waClientService.sendStatusMessage(nextStatus.value, customer);
+    this.waClientService.sendStatusMessage(nextStatus.value, { customer });
 
     return true;
   }

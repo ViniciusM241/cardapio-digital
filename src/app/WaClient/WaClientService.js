@@ -21,14 +21,10 @@ class WAClientService {
     return this.waClient.qr;
   }
 
-  sendStatusMessage(nextStatus, customer) {
-    try {
-      const message = messages[nextStatus](customer);
+  sendStatusMessage(nextStatus, { customer }) {
+    const message = messages[nextStatus]({ customer });
 
-      this.sendMessage(customer.phone, message);
-    } catch(err) {
-      console.log(err);
-    }
+    this.sendMessage(customer.phone, message);
   }
 
   _generateContact(phone) {
