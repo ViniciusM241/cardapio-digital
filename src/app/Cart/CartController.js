@@ -40,18 +40,18 @@ class CartController {
     const itemOrderedId = req.params.itemOrderedId;
     const body = req.body;
 
-    await this.cartService.changeItemOrderedQuantity(customerId, itemOrderedId, body);
+    const newCart = await this.cartService.changeItemOrderedQuantity(customerId, itemOrderedId, body);
 
-    return res.status(204).json({});
+    return res.status(200).json(newCart);
   }
 
   async deleteItemOrdered(req, res) {
     const customerId = req.params.customerId;
     const itemOrderedId = req.params.itemOrderedId;
 
-    await this.cartService.delete(customerId, itemOrderedId);
+    const newCart = await this.cartService.delete(customerId, itemOrderedId);
 
-    return res.status(204).json({});
+    return res.status(200).json(newCart);
   }
 
 }

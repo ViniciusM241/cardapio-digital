@@ -61,7 +61,9 @@ class CartService {
       }),
     });
 
-    return true;
+    const newCart = await this.findByCustomerId(customerId);
+
+    return newCart;
   }
 
   async delete(customerId, itemOrderedId) {
@@ -71,7 +73,9 @@ class CartService {
 
     await this.itemOrderedService.delete(itemOrderedId);
 
-    return true;
+    const newCart = await this.findByCustomerId(customerId);
+
+    return newCart;
   }
 
 }
