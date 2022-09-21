@@ -63,7 +63,9 @@ class OrderService {
 
     await this.cartService.cleanCart(customer.id, transaction);
 
-    return { ...order.dataValues, errors };
+    params.paymentMethods = paymentMethodsEnum
+
+    return { ...order.dataValues, errors, params };
   }
 
   async find(id) {

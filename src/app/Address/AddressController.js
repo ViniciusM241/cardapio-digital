@@ -14,7 +14,7 @@ class UserController {
     const payload = {
       zipcode: data.cep,
       address: data.logradouro,
-      district: data.district,
+      district: data.bairro,
     };
 
     return res.status(200).json(payload);
