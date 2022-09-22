@@ -21,7 +21,7 @@ const schema = Joi.object().keys({
       then: Joi.required(),
       otherwise: Joi.allow(''),
     }
-  ).label('Número').max(9).messages(messages),
+  ).label('Número').messages(messages),
   address: Joi.string().when(
     'deliveryMethod',
     {
@@ -29,7 +29,7 @@ const schema = Joi.object().keys({
       then: Joi.required(),
       otherwise: Joi.allow(''),
     }
-  ).label('Endereço').max(9).messages(messages),
+  ).label('Endereço').messages(messages),
   district: Joi.string().when(
     'deliveryMethod',
     {
@@ -37,7 +37,7 @@ const schema = Joi.object().keys({
       then: Joi.required(),
       otherwise: Joi.allow(''),
     }
-  ).label('Bairro').max(9).messages(messages),
+  ).label('Bairro').messages(messages),
   paymentMethod: Joi.string().required().label('Forma de pagamento').valid('PIX', 'CASH', 'CREDIT', 'DEBIT').messages(messages),
   change: Joi.string().label('Troco').when(
     'paymentMethod',

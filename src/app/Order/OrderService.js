@@ -65,7 +65,14 @@ class OrderService {
 
     params.paymentMethods = paymentMethodsEnum
 
-    return { ...order.dataValues, errors, params };
+    return {
+      ...order.dataValues,
+      errors,
+      params: {
+      ...params,
+        paymentMethods: paymentMethodsEnum,
+      },
+    };
   }
 
   async find(id) {
