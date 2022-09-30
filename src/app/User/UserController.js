@@ -11,6 +11,13 @@ class UserController {
     return res.status(200).json(users);
   }
 
+  async profile(req, res) {
+    const id = req.user?.id;
+    const user = await this.userService.getUserById(id);
+
+    return res.status(200).json(user);
+  }
+
   async find(req, res) {
     const id = req.params.id;
     const user = await this.userService.getUserById(id);

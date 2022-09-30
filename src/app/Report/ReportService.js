@@ -43,7 +43,7 @@ class StaticService {
           attributes: ['id', 'createdAt'],
           where: {
             status: orderStatusEnum.FINISHED.value,
-            id: order.id
+            orderId: order.id
           },
         });
 
@@ -73,10 +73,10 @@ class StaticService {
       qtyOrders,
       totalOrdersADay,
       paymentsPerOrders: {
-        total: allOrders.length,
+        total: allOrders.length - orderStatus,
         payd: orderStatus,
       },
-      avgOrderTime: avgOrderTime.toFixed(0),
+      avgOrderTime: isNaN(avgOrderTime) ? 0 : avgOrderTime.toFixed(0),
     };
   }
 

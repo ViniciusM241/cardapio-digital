@@ -18,6 +18,14 @@ module.exports = [
     ],
   },
   {
+    path: '/profile',
+    method: 'get',
+    action: 'profile',
+    beforeMiddlewares: [
+      auth,
+    ],
+  },
+  {
     path: '/users/:id',
     method: 'get',
     action: 'find',
