@@ -16,6 +16,7 @@ class OrderService {
     paramRepository,
 
     Error,
+    Sequelize,
   }) {
     this.orderStatusModel = orderStatusModel.sequelize();
 
@@ -27,6 +28,7 @@ class OrderService {
     this.paramRepository = paramRepository;
 
     this.Error = Error;
+    this.sequelize = Sequelize;
   }
 
   async createItem(data, transaction) {
@@ -95,33 +97,30 @@ class OrderService {
   }) {
     let where = {};
     let include = [];
+    const query = {
+      limit: isNaN(limit) ? null : parseInt(limit),
+      offset: isNaN(offset) ? null : parseInt(offset),
+    };
 
-    if (status === 'OPENED') {
-      include.push({
-        model: this.orderStatusModel,
-        as: 'ordersStatus',
-        where: {
-          status: { [Op.ne]: orderStatusEnum.FINISHED.value },
-        },
-      });
-    }
-
-    if (status && orderStatusEnum[status]) {
+    if (status) {
       include.push({
         model: this.orderStatusModel,
         as: 'ordersStatus',
         required: status !== 'PENDING',
-        where: {
-          status: orderStatusEnum[status].value,
-        },
       });
+      query.group = ['orders.id'];
+    }
+
+    if (status === 'OPENED') {
+      query.having = this.sequelize.literal(`max(ordersStatus.status) != '${orderStatusEnum.FINISHED.value}'`);
+    } else if (orderStatusEnum[status]) {
+      query.having = this.sequelize.literal(`max(ordersStatus.status) = '${orderStatusEnum[status].value}'`);
     }
 
     const orders = await this.orderRepository.findAll({
       include,
       where,
-      limit: isNaN(limit) ? null : parseInt(limit),
-      offset: isNaN(offset) ? null : parseInt(offset),
+      ...query,
     });
 
     const handledOrders = await Promise.all(
