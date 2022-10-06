@@ -19,6 +19,7 @@ class OrderStatus extends Model {
     userId: {
       type: this.DataTypes.INTEGER,
       onDelete: 'CASCADE',
+      allowNull: true,
       references: {
         model: User,
         key: 'id',

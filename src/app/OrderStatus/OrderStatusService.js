@@ -57,6 +57,7 @@ class OrderStatusService {
 
   getNextStatus(status, deliveryMethod) {
     switch (status) {
+      case '': return ordersStatusEnum.PENDING.value;
       case ordersStatusEnum.PENDING.value: return ordersStatusEnum.CONFIRMED;
       case ordersStatusEnum.CONFIRMED.value:
         return deliveryMethod === deliveryMethodsEnum.DELIVERY.value ?

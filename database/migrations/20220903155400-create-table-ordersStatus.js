@@ -9,7 +9,7 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      status: Sequelize.ENUM('CONFIRMED', 'PREPARING', 'READY', 'DELIVERING', 'WAITINGTAKEOUT', 'FINISHED'),
+      status: Sequelize.ENUM('PENDING', 'CONFIRMED', 'PREPARING', 'READY', 'DELIVERING', 'WAITINGTAKEOUT', 'FINISHED'),
       orderId: {
         onDelete: 'CASCADE',
         type: Sequelize.INTEGER,
@@ -18,6 +18,7 @@ module.exports = {
       userId: {
         onDelete: 'CASCADE',
         type: Sequelize.INTEGER,
+        allowNull: true,
         references: { model: 'users', key: 'id' },
       },
       createdAt: {

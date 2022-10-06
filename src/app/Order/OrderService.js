@@ -7,24 +7,28 @@ const { Op } = require('sequelize');
 class OrderService {
   constructor({
     orderStatusModel,
+    customerModel,
 
     cartService,
     customerService,
     orderStatusService,
 
     orderRepository,
+    orderStatusRepository,
     paramRepository,
 
     Error,
     Sequelize,
   }) {
     this.orderStatusModel = orderStatusModel.sequelize();
+    this.customerModel = customerModel.sequelize();
 
     this.cartService = cartService;
     this.customerService = customerService;
     this.orderStatusService = orderStatusService;
 
     this.orderRepository = orderRepository;
+    this.orderStatusRepository = orderStatusRepository;
     this.paramRepository = paramRepository;
 
     this.Error = Error;
@@ -63,9 +67,15 @@ class OrderService {
       customerId: customer.id,
     }, transaction);
 
-    await this.cartService.cleanCart(customer.id, transaction);
+    const status = this.orderStatusService.getNextStatus('', data.deliveryMethod);
 
-    params.paymentMethods = paymentMethodsEnum
+    await this.orderStatusRepository.create({
+      status,
+      orderId: order.id,
+      userId: null,
+    }, transaction);
+
+    await this.cartService.cleanCart(customer.id, transaction);
 
     return {
       ...order.dataValues,
@@ -106,16 +116,22 @@ class OrderService {
       include.push({
         model: this.orderStatusModel,
         as: 'ordersStatus',
-        required: status !== 'PENDING',
+        required: true,
       });
       query.group = ['orders.id'];
     }
 
     if (status === 'OPENED') {
-      query.having = this.sequelize.literal(`max(ordersStatus.status) != '${orderStatusEnum.FINISHED.value}'`);
+      query.having = this.sequelize.literal(`last(ordersStatus.status) != '${orderStatusEnum.FINISHED.value}'`);
     } else if (orderStatusEnum[status]) {
-      query.having = this.sequelize.literal(`max(ordersStatus.status) = '${orderStatusEnum[status].value}'`);
+      query.having = this.sequelize.literal(`last(ordersStatus.status) = '${orderStatusEnum[status].value}'`);
     }
+
+    include.push({
+      attributes: ['name'],
+      model: this.customerModel,
+      as: 'customer',
+    });
 
     const orders = await this.orderRepository.findAll({
       include,
@@ -126,9 +142,13 @@ class OrderService {
     const handledOrders = await Promise.all(
       orders.map(async order => {
         const status = await this.orderStatusService.getCurrentStatus(order.id);
+        const paymentMethodLabel = paymentMethodsEnum[order.paymentMethod].label;
+        const deliveryMethodLabel = deliverymethodsEnum[order.deliveryMethod].label;
 
         return {
           ...order.dataValues,
+          paymentMethodLabel,
+          deliveryMethodLabel,
           status,
         };
       })
