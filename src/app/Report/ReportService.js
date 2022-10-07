@@ -55,9 +55,11 @@ class StaticService {
 
     const avgOrderTime = diffs.filter(Boolean).reduce((acc, cur) => acc + cur, 0) / diffs.filter(Boolean).length;
 
+    const firstDateOfMonth = moment(_initDate).startOf('month');
+
     const totalOrdersADay = await this.orderRepository.count({
       where: {
-        createdAt: { [Op.between]: [_initDate, _finDate] },
+        createdAt: { [Op.between]: [firstDateOfMonth, _finDate] },
       },
       group: [this.sequelize.fn('DATE', this.sequelize.col('createdAt'))],
     });
@@ -65,7 +67,7 @@ class StaticService {
     const orderStatus = await this.orderStatusRepository.count({
       where: {
         createdAt: { [Op.between]: [_initDate, _finDate] },
-        status: orderStatusEnum.FINISHED.value,
+        status: orderStatusEnum.CONFIRMED.value,
       },
     });
 

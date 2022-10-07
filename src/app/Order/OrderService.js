@@ -60,7 +60,7 @@ class OrderService {
       zipcode: data.zipcode,
       number: data.number,
       paymentMethod: data.paymentMethod,
-      change: data.paymentMethod === paymentMethodsEnum.CASH.value ? data.change : null,
+      change: data.paymentMethod === paymentMethodsEnum.CASH.value ? data.change?.replace(',', '.') : null,
       total: data.deliveryMethod === deliverymethodsEnum.DELIVERY.value ?
         parseFloat(cart.total) + parseFloat(params.deliveryFee || 5) :
         parseFloat(cart.total),
@@ -88,7 +88,14 @@ class OrderService {
   }
 
   async find(id) {
-    const order = await this.orderRepository.findById(id);
+    const order = await this.orderRepository.findById(id, {
+      include: [
+        {
+          model: this.customerModel,
+          as: 'customer',
+        },
+      ],
+    });
 
     if (!order) throw new this.Error('order not found', 400);
 
@@ -101,7 +108,7 @@ class OrderService {
   }
 
   async search({
-    status,
+    status: statusQuery,
     limit,
     offset,
   }) {
@@ -110,22 +117,8 @@ class OrderService {
     const query = {
       limit: isNaN(limit) ? null : parseInt(limit),
       offset: isNaN(offset) ? null : parseInt(offset),
+      order: [['createdAt', 'DESC']],
     };
-
-    if (status) {
-      include.push({
-        model: this.orderStatusModel,
-        as: 'ordersStatus',
-        required: true,
-      });
-      query.group = ['orders.id'];
-    }
-
-    if (status === 'OPENED') {
-      query.having = this.sequelize.literal(`last(ordersStatus.status) != '${orderStatusEnum.FINISHED.value}'`);
-    } else if (orderStatusEnum[status]) {
-      query.having = this.sequelize.literal(`last(ordersStatus.status) = '${orderStatusEnum[status].value}'`);
-    }
 
     include.push({
       attributes: ['name'],
@@ -145,6 +138,14 @@ class OrderService {
         const paymentMethodLabel = paymentMethodsEnum[order.paymentMethod].label;
         const deliveryMethodLabel = deliverymethodsEnum[order.deliveryMethod].label;
 
+        if (statusQuery) {
+          if (statusQuery === 'OPENED') {
+            if (status.value === orderStatusEnum.FINISHED.value) return null;
+          } else {
+            if (status.value !== orderStatusEnum[statusQuery]?.value) return null;
+          }
+        }
+
         return {
           ...order.dataValues,
           paymentMethodLabel,
@@ -154,7 +155,7 @@ class OrderService {
       })
     );
 
-    return handledOrders;
+    return handledOrders.filter(Boolean);
   }
 
   async show(id) {
