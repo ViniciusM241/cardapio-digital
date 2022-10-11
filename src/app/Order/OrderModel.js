@@ -39,6 +39,12 @@ class Order extends Model {
       as: 'ordersStatus',
       foreignKey: 'orderId',
     },
+    {
+      model: 'ItemOrdered',
+      relation: 'hasMany',
+      as: 'itemsOrdered',
+      foreignKey: 'orderId',
+    },
   ];
 }
 

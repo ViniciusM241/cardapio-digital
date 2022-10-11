@@ -1,6 +1,7 @@
 const Model = require('../../bootstrap/Model');
 const Item = require('../Item/ItemModel');
 const Customer = require('../Customer/CustomerModel');
+const Order = require('../Order/OrderModel');
 const ExtraItemOrderedModel = require('../ExtraItemOrdered/ExtraItemOrderedModel');
 
 class ItemOrdered extends Model {
@@ -25,6 +26,14 @@ class ItemOrdered extends Model {
         key: 'id',
       },
     },
+    orderId: {
+      type: this.DataTypes.INTEGER,
+      onDelete: 'CASCADE',
+      references: {
+        model: Order,
+        key: 'id',
+      },
+    },
   });
 
   relationships = () => [
@@ -41,6 +50,13 @@ class ItemOrdered extends Model {
       as: 'customer',
       onDelete: 'CASCADE',
       foreignKey: 'customerId',
+    },
+    {
+      model: 'Order',
+      relation: 'belongsTo',
+      as: 'order',
+      onDelete: 'CASCADE',
+      foreignKey: 'orderId',
     },
     {
       model: 'extra',

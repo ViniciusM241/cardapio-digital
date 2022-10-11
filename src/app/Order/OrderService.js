@@ -8,10 +8,13 @@ class OrderService {
   constructor({
     orderStatusModel,
     customerModel,
+    itemOrderedModel,
+    itemModel,
 
     cartService,
     customerService,
     orderStatusService,
+    itemOrderedService,
 
     orderRepository,
     orderStatusRepository,
@@ -22,10 +25,13 @@ class OrderService {
   }) {
     this.orderStatusModel = orderStatusModel.sequelize();
     this.customerModel = customerModel.sequelize();
+    this.itemOrderedModel = itemOrderedModel.sequelize();
+    this.itemModel = itemModel.sequelize();
 
     this.cartService = cartService;
     this.customerService = customerService;
     this.orderStatusService = orderStatusService;
+    this.itemOrderedService = itemOrderedService;
 
     this.orderRepository = orderRepository;
     this.orderStatusRepository = orderStatusRepository;
@@ -75,13 +81,13 @@ class OrderService {
       userId: null,
     }, transaction);
 
-    await this.cartService.cleanCart(customer.id, transaction);
+    await this.cartService.confirmItems(customer.id, order.id, transaction);
 
     return {
       ...order.dataValues,
       errors,
       params: {
-      ...params,
+      ...params.dataValues,
         paymentMethods: paymentMethodsEnum,
       },
     };
@@ -100,10 +106,12 @@ class OrderService {
     if (!order) throw new this.Error('order not found', 400);
 
     const status = await this.orderStatusService.getCurrentStatus(order.id);
+    const itemsOrdered = await this.itemOrderedService.findByOrderId(order.id);
 
     return {
       ...order.dataValues,
       status,
+      itemsOrdered,
     };
   }
 

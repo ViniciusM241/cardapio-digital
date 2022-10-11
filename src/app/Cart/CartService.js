@@ -1,13 +1,18 @@
 class CartService {
   constructor({
     itemModel,
+
     itemOrderedService,
+
+    itemOrderedRepository,
 
     Error,
   }) {
     this.itemModel = itemModel.sequelize();
 
     this.itemOrderedService = itemOrderedService;
+
+    this.itemOrderedRepository = itemOrderedRepository;
 
     this.Error = Error;
   }
@@ -31,6 +36,22 @@ class CartService {
     await Promise.all(
       itemsOrdered.map(async itemOrdered => {
         await this.itemOrderedService.delete(itemOrdered.id, transaction);
+      })
+    );
+
+    return true;
+  }
+
+  async confirmItems(customerId, orderId, transaction) {
+    const itemsOrdered = await this.itemOrderedService.findByCustomerId(customerId);
+
+    if (!itemsOrdered.length) throw new this.Error('cart not found', 400);
+
+    await Promise.all(
+      itemsOrdered.map(async itemOrdered => {
+        await this.itemOrderedRepository.update(itemOrdered.id, {
+          orderId,
+        }, transaction);
       })
     );
 

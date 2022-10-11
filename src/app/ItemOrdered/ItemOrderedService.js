@@ -76,6 +76,37 @@ class ItemOrderedService {
     };
   }
 
+  async findByOrderId(id) {
+    const itemsOrdered = await this.itemOrderedRepository.findAll({
+      where: { orderId: id },
+      include: [
+        {
+          model: this.extraModel,
+          as: 'extras',
+        },
+        {
+          model: this.itemModel,
+          as: 'item',
+        },
+      ],
+    });
+
+    if (!itemsOrdered.length) throw new this.Error('Not found', 400);
+
+    const handled = Promise.all(
+      itemsOrdered.map(async itemOrdered => {
+        const total = await this.calculateTotal(itemOrdered.id);
+
+        return {
+          ...itemOrdered.dataValues,
+          total,
+        };
+      })
+    );
+
+    return handled;
+  }
+
   async calculateTotal(id) {
     const itemOrdered = await this.itemOrderedRepository.findById(id, {
       include: [
@@ -141,7 +172,7 @@ class ItemOrderedService {
 
   async findByCustomerId(customerId) {
     const itemsOrdered = await this.itemOrderedRepository.findAll({
-      where: { customerId },
+      where: { customerId, orderId: null },
       include: [
         {
           model: this.itemModel,
