@@ -28,7 +28,7 @@ class ExtraService {
 
     const extra = await this.extraRepository.create({
       name: data.name,
-      value: data.value,
+      value: data.value.replace(',', '.'),
     });
 
     return extra;
@@ -53,7 +53,7 @@ class ExtraService {
 
     await this.extraRepository.update(id, {
       name: data.name,
-      value: data.value,
+      value: data.value.replace(',', '.'),
     });
 
     return true;

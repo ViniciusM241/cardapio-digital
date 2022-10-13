@@ -41,6 +41,10 @@ class ItemService {
           model: this.extraModel,
           as: 'extras',
         },
+        {
+          model: this.categoryModel,
+          as: 'category',
+        },
       ],
     });
 
