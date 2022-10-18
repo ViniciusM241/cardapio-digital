@@ -8,8 +8,8 @@ class StaticController {
     this.sequelize = Sequelize;
   }
 
-  createFile(req, res) {
-    return this.staticService.createFile(req, res);
+  createFile(req, res, next) {
+    return this.staticService.createFile(req, res, next);
   }
 
 }

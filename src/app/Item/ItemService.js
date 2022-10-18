@@ -70,8 +70,9 @@ class ItemService {
     const item = await this.itemRepository.create({
       name: data.name,
       description: data.description,
-      value: data.value,
+      value: data.value.replace(',', '.'),
       categoryId: data.categoryId,
+      imageURL: data.imageURL || null,
     }, transaction);
 
     await this.extraItemService.updateItemsExtras(item.id, data.extraItems, transaction);
@@ -110,8 +111,9 @@ class ItemService {
     await this.itemRepository.update(id, {
       name: data.name,
       description: data.description,
-      value: data.value,
+      value: data.value.replace(',', '.'),
       categoryId: data.categoryId,
+      imageURL: data.imageURL || null,
     }, transaction);
 
     await this.extraItemService.updateItemsExtras(item.id, data.extraItems, transaction);

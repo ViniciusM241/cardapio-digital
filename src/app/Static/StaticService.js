@@ -16,7 +16,7 @@ class StaticService {
     this.fileDir = path.join(__dirname, '..', '..', 'static');
   }
 
-  createFile(req, res) {
+  createFile(req, res, next) {
     upload(req, res, (err) => {
       try {
         if (err) throw new this.Error(err.message, 400);

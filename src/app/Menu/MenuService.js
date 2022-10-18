@@ -21,6 +21,7 @@ class MenuService {
           as: 'items',
         },
       ],
+      order: ['id'],
     });
 
     return menu;

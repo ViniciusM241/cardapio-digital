@@ -18,7 +18,7 @@ class CustomerService {
           model: this.orderModel,
           as: 'orders',
           limit: 1,
-          order: [ [ 'createdAt', 'DESC' ]],
+          order: [[ 'createdAt', 'DESC' ]],
         },
       ],
     });
