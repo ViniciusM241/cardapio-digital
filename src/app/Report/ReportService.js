@@ -43,7 +43,10 @@ class StaticService {
           attributes: ['id', 'createdAt'],
           where: {
             status: orderStatusEnum.FINISHED.value,
-            orderId: order.id
+            orderId: order.id,
+            [Op.and]: [
+              this.sequelize.where(this.sequelize.fn('DATE', this.sequelize.col('createdAt')), moment(order.createdAt).format('yyyy-MM-DD')),
+           ],
           },
         });
 

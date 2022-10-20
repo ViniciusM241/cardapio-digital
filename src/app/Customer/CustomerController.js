@@ -6,9 +6,16 @@ class CustomerController {
   }
 
   async show(req, res) {
-    const customers = await this.customerService.getCustomers();
+    const filters = req.query;
+    const customers = await this.customerService.getCustomers(filters);
 
     return res.status(200).json(customers);
+  }
+
+  async count(req, res) {
+    const count = await this.customerService.getCount();
+
+    return res.status(200).json(count);
   }
 
   async find(req, res) {

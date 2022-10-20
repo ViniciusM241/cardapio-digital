@@ -21,6 +21,10 @@ class CustomerRepository {
     return this.customerModel.create(data);
   }
 
+  count(options) {
+    return this.customerModel.count(options);
+  }
+
   update(id, data) {
     return this.customerModel.update(data, {
       where: {

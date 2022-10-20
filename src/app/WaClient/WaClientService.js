@@ -9,7 +9,7 @@ class WAClientService {
 
   sendMessage(phone, message) {
     const target = this._generateContact(phone);
-    console.log(target)
+
     this.waClient.sendMessage(target, message);
   }
 

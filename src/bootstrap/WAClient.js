@@ -19,7 +19,6 @@ class WAClient {
 
   setUpEvents() {
     this.client.on('qr', (qr) => {
-      console.log(qr);
       this.qr = qr;
     });
 

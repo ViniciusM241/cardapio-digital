@@ -7,9 +7,17 @@ module.exports = [
     action: 'create',
   },
   {
-    path: '/customers',
+    path: '/customers/search',
     method: 'get',
     action: 'show',
+    beforeMiddlewares: [
+      auth,
+    ],
+  },
+  {
+    path: '/customers/count',
+    method: 'get',
+    action: 'count',
     beforeMiddlewares: [
       auth,
     ],

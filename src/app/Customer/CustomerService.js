@@ -4,14 +4,25 @@ class CustomerService {
     customerRepository,
 
     Error,
+    Sequelize,
   }) {
     this.orderModel = orderModel.sequelize();
     this.customerRepository = customerRepository;
 
     this.Error = Error;
+    this.sequelize = Sequelize;
   }
 
-  async getCustomers() {
+  async getCustomers({
+    limit=5,
+    offset=0,
+    order='asc',
+    sort='orders',
+  }) {
+    if (sort === 'orders') {
+      sort = 'id';
+    }
+
     const customers = await this.customerRepository.findAll({
       include: [
         {
@@ -21,9 +32,18 @@ class CustomerService {
           order: [[ 'createdAt', 'DESC' ]],
         },
       ],
+      order: [[ sort, order ]],
+      limit: Number(limit),
+      offset: Number(offset),
     });
 
     return customers;
+  }
+
+  async getCount() {
+    const count = await this.customerRepository.count();
+
+    return count;
   }
 
   async getCustomerById(id) {
