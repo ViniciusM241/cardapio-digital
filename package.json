@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "yarn migrate:apply",
     "dev": "nodemon ./src/server.js",
     "migrate:apply": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo",
