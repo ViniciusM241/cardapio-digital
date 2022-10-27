@@ -25,7 +25,10 @@ class StaticService {
           file: req.file,
         },
         (err, file) => {
-          if (err) throw new this.Error(err.message, 400);
+          if (err) {
+            return res.status(400).json({ message: 'error' });
+          }
+
           const { originalname: name, size, filename, mimetype, url = '' } = file;
           const returnedFile = {
             name,

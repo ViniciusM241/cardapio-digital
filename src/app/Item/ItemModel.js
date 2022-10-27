@@ -29,7 +29,7 @@ class Item extends Model {
       foreignKey: 'categoryId',
     },
     {
-      model: 'extra',
+      model: 'Extra',
       relation: 'belongsToMany',
       as: 'extras',
       foreignKey: 'itemId',

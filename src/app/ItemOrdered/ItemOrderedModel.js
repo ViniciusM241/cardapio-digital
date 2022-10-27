@@ -59,7 +59,7 @@ class ItemOrdered extends Model {
       foreignKey: 'orderId',
     },
     {
-      model: 'extra',
+      model: 'Extra',
       relation: 'belongsToMany',
       as: 'extras',
       foreignKey: 'itemOrderedId',
