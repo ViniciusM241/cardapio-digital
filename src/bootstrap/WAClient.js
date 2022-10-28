@@ -23,7 +23,6 @@ class WAClient {
     });
 
     this.client.on('change_state', (state) => {
-      console.log(state)
       this.status = state;
     });
 
@@ -36,6 +35,17 @@ class WAClient {
       this.status = 'AUTHENTICATED';
       console.log('AUTHENTICATED');
     });
+
+    this.client.on('disconnected', () => {
+      this.status = 'OFFLINE';
+      this.client.initialize();
+      console.log('DISCONNECTED');
+    });
+  }
+
+  disconnect() {
+    this.status = 'OFFLINE';
+    this.client.logout();
   }
 
   sendMessage(target, message) {

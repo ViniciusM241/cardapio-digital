@@ -33,4 +33,12 @@ module.exports = [
       auth,
     ],
   },
+  {
+    path: '/users/:id',
+    method: 'patch',
+    action: 'update',
+    beforeMiddlewares: [
+      auth,
+    ],
+  },
 ];

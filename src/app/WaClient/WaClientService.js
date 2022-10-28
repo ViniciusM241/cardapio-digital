@@ -27,6 +27,10 @@ class WAClientService {
     this.sendMessage(customer.phone, message);
   }
 
+  disconnect() {
+    this.waClient.disconnect();
+  }
+
   _generateContact(phone) {
     const endString = '@c.us';
 

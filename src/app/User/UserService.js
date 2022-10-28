@@ -50,6 +50,22 @@ class UserService {
     return user;
   }
 
+  async updateUser(data, id) {
+    if (!data.email ||
+      !data.password ||
+      !data.name
+      )
+      throw new this.Error('body missing information', 400);
+
+    const token = await hash(data.password, 8);
+
+    await this.userRepository.update(id, {
+      email: data.email,
+      name: data.name,
+      token,
+    });
+  }
+
 }
 
 module.exports = UserService;

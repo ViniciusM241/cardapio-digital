@@ -32,6 +32,15 @@ class UserController {
     return res.status(201).json(user);
   }
 
+  async update(req, res) {
+    const body = req.body;
+    const id = req.params.id;
+
+    await this.userService.updateUser(body, id);
+
+    return res.status(204).json();
+  }
+
 }
 
 module.exports = UserController;

@@ -9,4 +9,12 @@ module.exports = [
       auth,
     ],
   },
+  {
+    path: '/wa-client/disconnect',
+    method: 'get',
+    action: 'disconnect',
+    beforeMiddlewares: [
+      auth,
+    ],
+  },
 ];
