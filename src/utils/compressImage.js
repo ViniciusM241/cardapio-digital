@@ -12,7 +12,9 @@ function compressImage ({ file, path, size=762 }, cb) {
       file.size = Buffer.byteLength(data);
       cb && cb(null, file);
     })
-    .catch(err => cb && cb(err, null));
+    .catch(err => {
+      cb && cb(null, file);
+    });
 }
 
 module.exports = compressImage;

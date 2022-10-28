@@ -1,3 +1,5 @@
+const { Op } = require("sequelize");
+
 class CustomerService {
   constructor({
     orderModel,
@@ -33,6 +35,14 @@ class CustomerService {
         },
       ],
       order: [[ sort, order ]],
+      where: {
+        name: {
+          [Op.ne]: ''
+        },
+        phone: {
+          [Op.ne]: ''
+        },
+      },
       limit: Number(limit),
       offset: Number(offset),
     });

@@ -12,7 +12,7 @@ class Extra extends Model {
 
   relationships = () => [
     {
-      model: 'item',
+      model: 'Item',
       relation: 'belongsToMany',
       as: 'items',
       foreignKey: 'extraId',
@@ -20,7 +20,7 @@ class Extra extends Model {
       through: new ExtraItem().sequelize(),
     },
     {
-      model: 'itemOrdered',
+      model: 'ItemOrdered',
       relation: 'belongsToMany',
       as: 'itemsOrdered',
       foreignKey: 'extraId',
