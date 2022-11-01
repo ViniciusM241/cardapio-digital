@@ -180,7 +180,7 @@ class OrderService {
   async updateStatus(id, userId) {
     const order = await this.find(id);
 
-    await this.orderStatusService.toNextStatus(order, userId);
+    return this.orderStatusService.toNextStatus(order, userId);
   }
 
   validate(data) {

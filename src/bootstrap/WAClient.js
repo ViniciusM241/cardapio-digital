@@ -53,10 +53,15 @@ class WAClient {
       if (process.env.SEND_WA_MESSAGES === 'true') {
         if (this.status === 'CONNECTED') {
           this.client.sendMessage(target, message);
+          return true;
+        } else {
+          return false;
         }
       }
     } catch(err) {
       console.log(err);
+
+      return false;
     }
   }
 }

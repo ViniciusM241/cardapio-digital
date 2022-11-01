@@ -50,9 +50,7 @@ class OrderStatusService {
 
     const customer = await this.customerService.getCustomerById(order.customerId);
 
-    this.waClientService.sendStatusMessage(nextStatus.value, { customer });
-
-    return true;
+    return this.waClientService.sendStatusMessage(nextStatus.value, { customer });
   }
 
   getNextStatus(status, deliveryMethod) {

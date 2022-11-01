@@ -10,7 +10,7 @@ class WAClientService {
   sendMessage(phone, message) {
     const target = this._generateContact(phone);
 
-    this.waClient.sendMessage(target, message);
+    return this.waClient.sendMessage(target, message);
   }
 
   getStatus() {
@@ -24,7 +24,7 @@ class WAClientService {
   sendStatusMessage(nextStatus, { customer }) {
     const message = messages[nextStatus]({ customer });
 
-    this.sendMessage(customer.phone, message);
+    return this.sendMessage(customer.phone, message);
   }
 
   disconnect() {

@@ -43,9 +43,13 @@ class OrderController {
     const id = req.params.id;
     const userId = req.user.id;
 
-    await this.orderService.updateStatus(id, userId);
+    const isOk = await this.orderService.updateStatus(id, userId);
 
-    return res.status(204).json();
+    if (isOk) {
+      return res.status(204).json();
+    } else {
+      return res.status(200).json({ message: 'Message not sent' });
+    }
   }
 
 }
