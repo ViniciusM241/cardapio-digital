@@ -51,7 +51,16 @@ class CustomerService {
   }
 
   async getCount() {
-    const count = await this.customerRepository.count();
+    const count = await this.customerRepository.count({
+      where: {
+        name: {
+          [Op.ne]: ''
+        },
+        phone: {
+          [Op.ne]: ''
+        },
+      },
+    });
 
     return count;
   }
