@@ -66,7 +66,7 @@ class OrderService {
       zipcode: data.zipcode,
       number: data.number,
       paymentMethod: data.paymentMethod,
-      change: data.paymentMethod === paymentMethodsEnum.CASH.value ? data.change?.replace(',', '.') : null,
+      change: data.paymentMethod === paymentMethodsEnum.CASH.value && data.change !== '' ? data.change?.replace(',', '.') : null,
       total: data.deliveryMethod === deliverymethodsEnum.DELIVERY.value ?
         parseFloat(cart.total) + parseFloat(params.deliveryFee || 5) :
         parseFloat(cart.total),

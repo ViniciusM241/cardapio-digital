@@ -70,15 +70,9 @@
   integrity sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==
 
 "@types/node@*":
-<<<<<<< HEAD
-  version "18.11.7"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.7.tgz#8ccef136f240770c1379d50100796a6952f01f94"
-  integrity sha512-LhFTglglr63mNXUSRYD8A+ZAIu5sFqNJ4Y2fPuY7UlrySJH87rRRlhtVmMHplmfk5WkoJGmDjE9oiTfyX94CpQ==
-=======
   version "18.11.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.5.tgz#1bc94cf2f9ab5fe33353bc7c79c797dcc5325bef"
   integrity sha512-3JRwhbjI+cHLAkUorhf8RnqUbFXajvzX4q6fMn5JwkgtuwfYtRQYI3u4V92vI6NJuTsbBQWWh3RZjFsuevyMGQ==
->>>>>>> c6a52f8e19c229090f6623817c6cfbd6609e0924
 
 "@types/validator@^13.7.1":
   version "13.7.9"
@@ -1916,15 +1910,9 @@ seq-queue@^0.0.5:
   integrity sha512-hr3Wtp/GZIc/6DAGPDcV4/9WoZhjrkXsi5B/07QgX8tsdc6ilr7BFM6PM6rbdAX1kFSDYeZGLipIZZKyQP0O5Q==
 
 sequelize-cli@^6.4.1:
-<<<<<<< HEAD
-  version "6.5.2"
-  resolved "https://registry.yarnpkg.com/sequelize-cli/-/sequelize-cli-6.5.2.tgz#8c0b061a213a550ba812029c0fabeb5a38843d2c"
-  integrity sha512-ltXvQOxFFb9pVuDqPJYOS3/X32OVni9zK1S0d0JfloSjmCKZmMDFBWndZbcbJH0QBfyxTt7FLt/kSmKwTRlbsQ==
-=======
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/sequelize-cli/-/sequelize-cli-6.5.1.tgz#e084c82b11e86ed9bd7e47fde4e44cfbc6e81e2c"
   integrity sha512-36hfZKNeZkIshp6L0jPVQ27xNLzgDPpiZokQsvo0M882AtAm+KhGOIViR0BecWb0Xz8+uSq03xxcl7RfMgyIRA==
->>>>>>> c6a52f8e19c229090f6623817c6cfbd6609e0924
   dependencies:
     cli-color "^2.0.3"
     fs-extra "^9.1.0"
@@ -2278,16 +2266,10 @@ webidl-conversions@^3.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
   integrity sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==
 
-whatsapp-web.js@^1.17.1:
-<<<<<<< HEAD
+whatsapp-web.js@^1.18.1:
   version "1.18.2"
   resolved "https://registry.yarnpkg.com/whatsapp-web.js/-/whatsapp-web.js-1.18.2.tgz#ffd1a7c8dfb4b01ea15ef54afbbad8e29e5339f6"
   integrity sha512-RMzLgstoS9hLK4ix+RchDxXdpuSXuV8jm7SDb/8xc5Ju09zrkOP11dj/4XYszmuwNR0n1VsxNQGp39pnulmcUA==
-=======
-  version "1.18.0"
-  resolved "https://registry.yarnpkg.com/whatsapp-web.js/-/whatsapp-web.js-1.18.0.tgz#e1d38dd0605aa40f38d4aba4805c1dc741920781"
-  integrity sha512-3cCW28/w7llZmTgiO9osumaopOuBBduvyuW02yfy3q9Rz4Wq9Oe1dRedE/kkq764zB8AZcuTs0tE8OKTq2Zobw==
->>>>>>> c6a52f8e19c229090f6623817c6cfbd6609e0924
   dependencies:
     "@pedroslopez/moduleraid" "^5.0.2"
     fluent-ffmpeg "^2.1.2"

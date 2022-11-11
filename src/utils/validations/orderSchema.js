@@ -48,6 +48,7 @@ const schema = Joi.object().keys({
     }
   ).messages(messages),
   customerId: Joi.number().required(),
+  noChange: Joi.array(),
 });
 
 module.exports = schema;
