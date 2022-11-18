@@ -63,7 +63,6 @@ class OrderService {
       deliveryMethod: data.deliveryMethod,
       address: data.address,
       district: data.district,
-      zipcode: data.zipcode,
       number: data.number,
       paymentMethod: data.paymentMethod,
       change: data.paymentMethod === paymentMethodsEnum.CASH.value && data.change !== '' ? data.change?.replace(',', '.') : null,

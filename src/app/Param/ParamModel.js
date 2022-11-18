@@ -5,6 +5,10 @@ class Param extends Model {
 
   dataTypes = () => ({
     deliveryFee: this.DataTypes.DECIMAL(15, 2),
+    businessNumber: this.DataTypes.STRING,
+    takeoutTime: this.DataTypes.INTEGER,
+    deliveryTime: this.DataTypes.INTEGER,
+    pix: this.DataTypes.STRING,
   });
 
   relationships = () => [
