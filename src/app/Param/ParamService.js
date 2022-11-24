@@ -11,7 +11,11 @@ class ParamService {
   }
 
   async show() {
-    return await this.paramRepository.findOne();
+    const params = await this.paramRepository.findOne();
+
+    params.deliveryFee = params.deliveryFee === '0.00' ? null : params.deliveryFee;
+
+    return params;
   }
 
   async update(data) {
@@ -21,7 +25,7 @@ class ParamService {
     const params =  await this.paramRepository.findOne();
 
     await params.update({
-      deliveryFee: data.delveryFee ? data.delveryFee?.replace(',', '.') : 0,
+      deliveryFee: data.deliveryFee ? data.deliveryFee?.replace(',', '.') : 0,
       businessNumber: data.businessNumber,
       deliveryTime: Number(data.deliveryTime) || 0,
       takeoutTime: Number(data.takeoutTime) || 0,
