@@ -59,7 +59,7 @@ class OrderService {
 
     const params = await this.paramRepository.findById(1);
     const total = data.deliveryMethod === deliverymethodsEnum.DELIVERY.value ?
-                  parseFloat(cart.total) + parseFloat(params.deliveryFee || 5) :
+                  parseFloat(cart.total) + parseFloat(params.deliveryFee) :
                   parseFloat(cart.total);
 
     if (total < 10) throw new this.Error('cart is empty', 400);

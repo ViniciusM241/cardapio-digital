@@ -21,6 +21,7 @@ class ParamService {
     const params =  await this.paramRepository.findOne();
 
     await params.update({
+      deliveryFee: data.delveryFee ? data.delveryFee?.replace(',', '.') : 0,
       businessNumber: data.businessNumber,
       deliveryTime: Number(data.deliveryTime) || 0,
       takeoutTime: Number(data.takeoutTime) || 0,
