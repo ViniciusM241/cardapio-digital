@@ -58,6 +58,11 @@ class OrderService {
     if (!cart.itemsOrdered.length) throw new this.Error('cart is empty', 400);
 
     const params = await this.paramRepository.findById(1);
+    const total = data.deliveryMethod === deliverymethodsEnum.DELIVERY.value ?
+                  parseFloat(cart.total) + parseFloat(params.deliveryFee || 5) :
+                  parseFloat(cart.total);
+
+    if (total < 10) throw new this.Error('cart is empty', 400);
 
     const order = await this.orderRepository.create({
       deliveryMethod: data.deliveryMethod,
@@ -66,10 +71,8 @@ class OrderService {
       number: data.number,
       paymentMethod: data.paymentMethod,
       change: data.paymentMethod === paymentMethodsEnum.CASH.value && data.change !== '' ? data.change?.replace(',', '.') : null,
-      total: data.deliveryMethod === deliverymethodsEnum.DELIVERY.value ?
-        parseFloat(cart.total) + parseFloat(params.deliveryFee || 5) :
-        parseFloat(cart.total),
       customerId: customer.id,
+      total,
     }, transaction);
 
     const status = this.orderStatusService.getNextStatus('', data.deliveryMethod);

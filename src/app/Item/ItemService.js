@@ -7,6 +7,7 @@ class ItemService {
     categoryRepository,
 
     extraItemService,
+    specialItemId,
 
     Error,
   }) {
@@ -19,6 +20,7 @@ class ItemService {
     this.extraItemService = extraItemService;
 
     this.Error = Error;
+    this.specialItemId = specialItemId;
   }
 
   async getItems() {
@@ -30,6 +32,37 @@ class ItemService {
         },
       ],
     });
+
+    return this.handleSpecialItem(items);
+  }
+
+  handleSpecialItem(items) {
+    if (this.specialItemId) {
+      const found = items.some((item, index) => {
+        if(item.id === this.specialItemId) {
+          item.dataValues = {
+            ...item.dataValues,
+            special: true,
+          };
+
+          items[index] = item;
+
+          return true;
+        }
+
+        return false;
+      });
+
+      if (found) {
+        const aux = items[0];
+        const specialItemIndex = items.findIndex(x => x.dataValues.special);
+
+        items[0] = items[specialItemIndex];
+        items[specialItemIndex] = aux;
+      }
+
+      return items;
+    }
 
     return items;
   }
@@ -50,7 +83,7 @@ class ItemService {
 
     if (!item) throw new this.Error('item not found', 404);
 
-    return item;
+    return this.handleSpecialItem([item])[0];
   }
 
   async createItem(data, transaction) {

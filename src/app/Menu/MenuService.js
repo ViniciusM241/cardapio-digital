@@ -1,12 +1,14 @@
 class MenuService {
   constructor({
     itemModel,
+    itemService,
 
     categoryRepository,
 
     Error,
   }) {
     this.itemModel = itemModel.sequelize();
+    this.itemService = itemService;
 
     this.categoryRepository = categoryRepository;
 
@@ -22,6 +24,10 @@ class MenuService {
         },
       ],
       order: ['id'],
+    });
+
+    menu.forEach((category, index) => {
+      menu[index].items = this.itemService.handleSpecialItem(category.items);
     });
 
     return menu;

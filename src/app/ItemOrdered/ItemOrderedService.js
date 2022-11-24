@@ -13,6 +13,7 @@ class ItemOrderedService {
     extraItemOrderedService,
 
     Error,
+    specialItemId,
   }) {
     this.categoryModel = categoryModel.sequelize();
     this.extraModel = extraModel.sequelize();
@@ -27,6 +28,7 @@ class ItemOrderedService {
     this.extraItemOrderedService = extraItemOrderedService;
 
     this.Error = Error;
+    this.specialItemId = specialItemId;
   }
 
   async create (data, transaction) {
@@ -73,6 +75,7 @@ class ItemOrderedService {
     return {
       ...itemOrdered.dataValues,
       total,
+      special: itemOrdered.itemId === this.specialItemId,
     };
   }
 
@@ -192,6 +195,7 @@ class ItemOrderedService {
         return {
           ...itemOrdered.dataValues,
           total,
+          special: itemOrdered.dataValues.itemId === this.specialItemId,
         };
       })
     );

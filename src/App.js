@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const Router = require('./bootstrap/Router');
 const bootstrap = require('./bootstrap');
+const configs = require('./configs');
 const WAClient = require('./bootstrap/WAClient');
 
 class App {
@@ -29,8 +30,10 @@ class App {
     this.app.use('/api/static', express.static(__dirname + '/static'));
 
     bootstrap(this.container);
+    configs(this.container);
 
     const waClient = new WAClient();
+
     waClient.init();
 
     this.container.register({ waClient: asValue(waClient) });
