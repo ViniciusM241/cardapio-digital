@@ -31,7 +31,7 @@ class UserService {
   }
 
   generateToken(user) {
-    const expiresIn = 2400;
+    const expiresIn = 18000;
 
     const token = jwt.sign(
       { userId: user.id },

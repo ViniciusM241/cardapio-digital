@@ -21,8 +21,8 @@ class WAClientService {
     return this.waClient.qr;
   }
 
-  sendStatusMessage(nextStatus, { customer }) {
-    const message = messages[nextStatus]({ customer });
+  sendStatusMessage(nextStatus, { customer, ...opts }) {
+    const message = messages[nextStatus]({ customer, ...opts });
 
     return this.sendMessage(customer.phone, message);
   }

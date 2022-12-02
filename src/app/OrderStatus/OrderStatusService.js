@@ -1,5 +1,6 @@
 const ordersStatusEnum = require('../../utils/enums/orderStatus');
 const deliveryMethodsEnum = require('../../utils/enums/deliverymethods');
+const formatMinutes = require('../../utils/formatMinutes');
 
 class OrderStatusService {
   constructor({
@@ -8,6 +9,7 @@ class OrderStatusService {
     waClientService,
 
     orderStatusRepository,
+    paramRepository,
 
     Error,
     Sequelize,
@@ -17,6 +19,7 @@ class OrderStatusService {
     this.waClientService = waClientService;
 
     this.orderStatusRepository = orderStatusRepository;
+    this.paramRepository = paramRepository;
 
     this.sequelize = Sequelize;
     this.Error = Error;
@@ -49,8 +52,17 @@ class OrderStatusService {
     });
 
     const customer = await this.customerService.getCustomerById(order.customerId);
+    const params = await this.paramRepository.findById(1);
+    const timeToDeliver = order.deliveryMethod == deliveryMethodsEnum.DELIVERY.value ?
+      params.deliveryTime ? formatMinutes(params.deliveryTime) : null :
+      params.takeoutTime ? formatMinutes(params.takeoutTime) : null;
 
-    return this.waClientService.sendStatusMessage(nextStatus.value, { customer });
+    const _order = {
+      ...order,
+      timeToDeliver,
+    };
+
+    return this.waClientService.sendStatusMessage(nextStatus.value, { customer, order: _order });
   }
 
   getNextStatus(status, deliveryMethod) {
