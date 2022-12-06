@@ -1,7 +1,7 @@
 # Digital Menu - back-end
 ## App developed with ReactJS and NodeJS
 
-🚀 - [Deploy link](https://viniciusmelo.herokuapp.com/login)
+🚀 - [Deploy link](http://dev.filipe.eng.br)
 ✨ - [UI access](https://www.figma.com/file/1MBU9FCkpyeh0xMv9HukzE/SENAI-Perron-Tex-Mex?node-id=0%3A1)
 
 Mobile first digital menu developed for a restaurant. Their customer can be up to date with their orders through WhatsApp messenger.
